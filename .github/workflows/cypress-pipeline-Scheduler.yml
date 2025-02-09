@@ -1,0 +1,29 @@
+name: Run Basic Testes
+
+on:
+    schedule:
+        - cron: '0 0 10 * 1-5'  # Execute every day at 00:00 AM
+
+jobs:
+  cypress-run:
+      runs-on: ubuntu-latest
+      
+      steps:
+
+        - name: Checkout/Clone do projeto
+          uses: actions/checkout@v4
+
+        - name: Run tests
+          uses: cypress-io/github-action@v6
+          with:
+            record: true
+          env:
+            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+         
+        - name: Upload Report
+          uses: actions/upload-artifact@v4
+          with:
+            name: Relatórios
+            path: cypress/reports/html
+
+            
